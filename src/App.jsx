@@ -9,6 +9,8 @@ import Portfolio from './pages/Portfolio';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 
+import { Toaster } from 'sonner';
+
 function App() {
   return (
     <Router>
@@ -22,6 +24,7 @@ function App() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
+        <Toaster />
       </Layout>
     </Router>
   );

@@ -1,10 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SpotlightCard from '@/components/ui/SpotlightCard';
 import { TrendingUp, Building2, ExternalLink } from 'lucide-react';
+import { getLatestAnalysis } from '@/services/api';
+import { toast } from 'sonner';
 
 export default function LatestAnalysis() {
-    const score = 87;
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const analysisData = await getLatestAnalysis();
+                setData(analysisData);
+            } catch (error) {
+                console.error("Failed to fetch latest analysis:", error);
+                // Use mock data fallback
+                const mockData = {
+                    score: 87,
+                    company: {
+                        name: 'TechFlow AI',
+                        sector: 'Enterprise SaaS',
+                        stage: 'Series A'
+                    },
+                    metrics: [
+                        { label: 'Market Size', value: '$12B TAM' },
+                        { label: 'Revenue Growth', value: '+340% YoY' },
+                        { label: 'Team Score', value: '92/100' }
+                    ]
+                };
+                setData(mockData);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <SpotlightCard className="p-6 h-full flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-500"></div>
+            </SpotlightCard>
+        );
+    }
+
+    if (!data) return null;
+
+    const { score, company, metrics } = data;
     const circumference = 2 * Math.PI * 40;
     const strokeDashoffset = circumference - (score / 100) * circumference;
 
@@ -73,8 +118,8 @@ export default function LatestAnalysis() {
                             <Building2 className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <h4 className="font-semibold text-slate-900 text-[15px]">TechVenture AI</h4>
-                            <p className="text-xs text-slate-500">AI/ML • Series A</p>
+                            <h4 className="font-semibold text-slate-900 text-[15px]">{company.name}</h4>
+                            <p className="text-xs text-slate-500">{company.industry} • {company.stage}</p>
                         </div>
                     </div>
 
@@ -100,7 +145,7 @@ export default function LatestAnalysis() {
                     transition={{ delay: 1, duration: 0.3 }}
                 >
                     <p className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mb-1">Ask</p>
-                    <p className="text-lg font-semibold text-slate-900">$4.5M</p>
+                    <p className="text-lg font-semibold text-slate-900">{metrics.ask}</p>
                 </motion.div>
                 <motion.div
                     className="p-3 bg-slate-50 rounded-xl"
@@ -109,7 +154,7 @@ export default function LatestAnalysis() {
                     transition={{ delay: 1.1, duration: 0.3 }}
                 >
                     <p className="text-[11px] text-slate-500 font-medium uppercase tracking-wide mb-1">Market</p>
-                    <p className="text-lg font-semibold text-slate-900">$12B</p>
+                    <p className="text-lg font-semibold text-slate-900">{metrics.market}</p>
                 </motion.div>
             </div>
         </SpotlightCard>
