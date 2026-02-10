@@ -135,7 +135,7 @@ Maintains conversation context and cites specific data points.
 
 <div align="center">
 
-[![Demo Video](https://via.placeholder.com/800x450/0B1120/F59E0B?text=▶️+Watch+Demo)](https://youtu.be/wnpV1f2TXT4?si=xm0NC3KKJC558rAt)
+[[Demo Video]](https://youtu.be/wnpV1f2TXT4?si=xm0NC3KKJC558rAt)
 
 **2-minute demo showing all features**
 
