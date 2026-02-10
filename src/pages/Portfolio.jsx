@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, ExternalLink, ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 const portfolioCompanies = [
     {
@@ -79,6 +81,8 @@ const KPICard = ({ title, value, subtext, valueColor = "text-slate-900" }) => (
 );
 
 export default function Portfolio() {
+    const navigate = useNavigate();
+
     return (
         <div className="space-y-8 max-w-[1600px] mx-auto pb-10">
             {/* Header Section */}
@@ -111,6 +115,10 @@ export default function Portfolio() {
                 {portfolioCompanies.map((company) => (
                     <div
                         key={company.name}
+                        onClick={() => {
+                            toast.info(`Opening ${company.name} details...`);
+                            // navigate(`/portfolio/${company.name.toLowerCase().replace(' ', '-')}`);
+                        }}
                         className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-indigo-100 hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
                     >
                         {/* Card Header */}
@@ -126,7 +134,16 @@ export default function Portfolio() {
                                     <p className="text-xs text-slate-500 font-medium">{company.sector}</p>
                                 </div>
                             </div>
-                            <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-400 transition-colors" />
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    toast.success(`Navigating to ${company.name} analysis`);
+                                    navigate('/analytics');
+                                }}
+                                className="p-2 hover:bg-slate-100 rounded-full transition-all group/btn active:scale-95 border border-transparent hover:border-slate-200"
+                            >
+                                <ExternalLink className="w-4 h-4 text-slate-400 group-hover/btn:text-indigo-600 transition-colors" />
+                            </button>
                         </div>
 
                         {/* Data Table */}

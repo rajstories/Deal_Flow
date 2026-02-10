@@ -25,6 +25,45 @@ export default function LiveActivityFeed() {
                 setActivities(data);
             } catch (error) {
                 console.error("Failed to fetch activity feed:", error);
+                // Use mock data fallback
+                const mockActivities = [
+                    {
+                        id: 1,
+                        type: 'FileText',
+                        text: 'Analyzed TechFlow AI pitch deck',
+                        time: '2 minutes ago',
+                        badge: 'NEW'
+                    },
+                    {
+                        id: 2,
+                        type: 'Users',
+                        text: 'Found warm intro: Sarah Chen → Marcus Johnson',
+                        time: '15 minutes ago',
+                        badge: null
+                    },
+                    {
+                        id: 3,
+                        type: 'TrendingUp',
+                        text: 'Updated AI/ML sector market data',
+                        time: '1 hour ago',
+                        badge: null
+                    },
+                    {
+                        id: 4,
+                        type: 'CheckCircle2',
+                        text: 'Scored CloudScale Infrastructure (87/100)',
+                        time: '2 hours ago',
+                        badge: null
+                    },
+                    {
+                        id: 5,
+                        type: 'Sparkles',
+                        text: 'Scheduled follow-up with David Park',
+                        time: '3 hours ago',
+                        badge: null
+                    }
+                ];
+                setActivities(mockActivities);
             }
         };
 

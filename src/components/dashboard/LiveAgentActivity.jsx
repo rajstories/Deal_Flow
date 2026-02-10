@@ -16,7 +16,40 @@ export default function LiveAgentActivity() {
         setActivities(data);
       } catch (error) {
         console.error("Failed to fetch agent activity:", error);
-        // toast.error("Failed to load agent activity"); // Optional: don't spam toasts on dash load
+        // Use mock data fallback
+        const mockActivities = [
+          {
+            agent: 'Deal Analyzer',
+            action: 'Analyzed pitch deck',
+            target: 'TechFlow AI Series A',
+            time: '2m ago'
+          },
+          {
+            agent: 'Network Scout',
+            action: 'Found warm intro',
+            target: 'Sarah Chen → Marcus Johnson',
+            time: '15m ago'
+          },
+          {
+            agent: 'Market Intelligence',
+            action: 'Updated market data',
+            target: 'AI/ML Sector Report',
+            time: '1h ago'
+          },
+          {
+            agent: 'Deal Analyzer',
+            action: 'Scored company',
+            target: 'CloudScale Infrastructure',
+            time: '2h ago'
+          },
+          {
+            agent: 'Relationship Manager',
+            action: 'Scheduled follow-up',
+            target: 'David Park (NeuralMind)',
+            time: '3h ago'
+          }
+        ];
+        setActivities(mockActivities);
       } finally {
         setLoading(false);
       }

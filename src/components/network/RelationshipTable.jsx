@@ -140,7 +140,9 @@ const contactsData = [
 const sentimentConfig = {
     'Champion': { color: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
     'Interested': { color: 'bg-blue-100 text-blue-700 border-blue-200' },
+    'Neutral': { color: 'bg-slate-100 text-slate-500 border-slate-200' },
     'Skeptical': { color: 'bg-amber-100 text-amber-700 border-amber-200' },
+    'Detractor': { color: 'bg-red-100 text-red-700 border-red-200' },
     'Cold': { color: 'bg-slate-100 text-slate-600 border-slate-200' },
 };
 
@@ -186,7 +188,7 @@ const WhatsAppIcon = ({ className }) => (
     </svg>
 );
 
-export default function RelationshipTable({ onSelectContact, selectedContact }) {
+export default function RelationshipTable({ contacts = [], onSelectContact, selectedContact }) {
     const [sortField, setSortField] = useState(null);
     const [sortDirection, setSortDirection] = useState('asc');
 
@@ -200,8 +202,8 @@ export default function RelationshipTable({ onSelectContact, selectedContact }) 
     };
 
     const sortedData = useMemo(() => {
-        if (!sortField) return contactsData;
-        return [...contactsData].sort((a, b) => {
+        if (!sortField) return contacts;
+        return [...contacts].sort((a, b) => {
             const aVal = a[sortField];
             const bVal = b[sortField];
             if (typeof aVal === 'number') {
@@ -211,7 +213,7 @@ export default function RelationshipTable({ onSelectContact, selectedContact }) 
                 ? String(aVal).localeCompare(String(bVal))
                 : String(bVal).localeCompare(String(aVal));
         });
-    }, [sortField, sortDirection]);
+    }, [contacts, sortField, sortDirection]);
 
     const SortHeader = ({ field, children }) => (
         <button
@@ -258,7 +260,7 @@ export default function RelationshipTable({ onSelectContact, selectedContact }) 
                             const Icon = contact.lastInteractionType === 'Email' ? Mail :
                                 contact.lastInteractionType === 'Meeting' ? Calendar :
                                     contact.lastInteractionType === 'Call' ? Phone : MessageSquare;
-                            const config = sentimentConfig[contact.sentiment];
+                            const config = sentimentConfig[contact.sentiment] || sentimentConfig['Cold'];
                             const isActive = selectedContact?.id === contact.id;
 
                             return (

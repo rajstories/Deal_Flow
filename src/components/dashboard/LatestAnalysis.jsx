@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import SpotlightCard from '@/components/ui/SpotlightCard';
 import { TrendingUp, Building2, ExternalLink } from 'lucide-react';
 import { getLatestAnalysis } from '@/services/api';
@@ -8,6 +9,7 @@ import { toast } from 'sonner';
 export default function LatestAnalysis() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,14 +23,13 @@ export default function LatestAnalysis() {
                     score: 87,
                     company: {
                         name: 'TechFlow AI',
-                        sector: 'Enterprise SaaS',
+                        industry: 'AI/ML',
                         stage: 'Series A'
                     },
-                    metrics: [
-                        { label: 'Market Size', value: '$12B TAM' },
-                        { label: 'Revenue Growth', value: '+340% YoY' },
-                        { label: 'Team Score', value: '92/100' }
-                    ]
+                    metrics: {
+                        ask: '$5M',
+                        market: 'Enterprise SaaS'
+                    }
                 };
                 setData(mockData);
             } finally {
@@ -58,7 +59,10 @@ export default function LatestAnalysis() {
             {/* Header with External Link */}
             <div className="flex items-center justify-between mb-5">
                 <h3 className="text-lg font-semibold text-slate-900">Latest Analysis</h3>
-                <button className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors">
+                <button
+                    onClick={() => navigate('/analysis')}
+                    className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"
+                >
                     <ExternalLink className="w-4 h-4 text-slate-400 hover:text-slate-600" />
                 </button>
             </div>

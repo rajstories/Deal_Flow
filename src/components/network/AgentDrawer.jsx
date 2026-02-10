@@ -1,5 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 import {
     X,
     Sparkles,
@@ -53,7 +55,16 @@ const WhatsAppIcon = ({ className }) => (
 );
 
 export default function AgentDrawer({ contact, onClose }) {
+    const navigate = useNavigate();
     if (!contact) return null;
+
+    const handleAction = (actionTitle) => {
+        toast.success(`Action initiated: ${actionTitle}`);
+        // Simulate some logic
+        if (actionTitle.includes('Schedule')) {
+            // navigate('/calendar'); or open a modal
+        }
+    };
 
     return (
         <AnimatePresence>
@@ -215,76 +226,100 @@ export default function AgentDrawer({ contact, onClose }) {
                             <Sparkles className="w-4 h-4 text-amber-500" />
                             <h3 className="text-[13px] font-semibold text-slate-900">Suggested Actions</h3>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                             <motion.button
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.99 }}
-                                className="w-full flex items-start gap-3 p-3 rounded-lg border border-amber-200 bg-amber-50/50 hover:bg-amber-50 transition-colors text-left"
+                                whileHover={{ scale: 1.02, backgroundColor: "rgba(245, 158, 11, 0.1)" }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => {
+                                    handleAction("Congratulate on IPO");
+                                    toast.success("Draft email prepared for Sarah Chen");
+                                }}
+                                className="w-full flex items-start gap-3 p-4 rounded-xl border border-amber-200 bg-amber-50/30 transition-all text-left group"
                             >
-                                <div className="p-1.5 bg-amber-100 rounded-md">
-                                    <Trophy className="w-4 h-4 text-amber-600" />
+                                <div className="p-2 bg-amber-100 rounded-lg group-hover:bg-amber-200 transition-colors">
+                                    <Trophy className="w-5 h-5 text-amber-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <span className="text-[12px] font-medium text-slate-800 block">
+                                    <span className="text-[13px] font-semibold text-slate-800 block">
                                         Congratulate on recent IPO
                                     </span>
-                                    <span className="text-[11px] text-slate-500">
+                                    <span className="text-[11px] text-slate-500 leading-normal">
                                         Detected: Portfolio company DataMesh went public yesterday
                                     </span>
                                 </div>
-                                <Send className="w-4 h-4 text-slate-400" />
+                                <Send className="w-4 h-4 text-slate-400 group-hover:text-amber-600 transition-colors mt-1" />
                             </motion.button>
 
                             <motion.button
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.99 }}
-                                className="w-full flex items-start gap-3 p-3 rounded-lg border border-blue-200 bg-blue-50/50 hover:bg-blue-50 transition-colors text-left"
+                                whileHover={{ scale: 1.02, backgroundColor: "rgba(59, 130, 246, 0.1)" }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => {
+                                    handleAction("Request intro to Marcus Chen");
+                                    navigate('/relationships');
+                                }}
+                                className="w-full flex items-start gap-3 p-4 rounded-xl border border-blue-200 bg-blue-50/30 transition-all text-left group"
                             >
-                                <div className="p-1.5 bg-blue-100 rounded-md">
-                                    <UserPlus className="w-4 h-4 text-blue-600" />
+                                <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                                    <UserPlus className="w-5 h-5 text-blue-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <span className="text-[12px] font-medium text-slate-800 block">
+                                    <span className="text-[13px] font-semibold text-slate-800 block">
                                         Ask for intro to Marcus Chen
                                     </span>
-                                    <span className="text-[11px] text-slate-500">
+                                    <span className="text-[11px] text-slate-500 leading-normal">
                                         Founder of NeuralMind - 2nd degree connection
                                     </span>
                                 </div>
-                                <Send className="w-4 h-4 text-slate-400" />
+                                <Send className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors mt-1" />
                             </motion.button>
 
                             <motion.button
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.99 }}
-                                className="w-full flex items-start gap-3 p-3 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors text-left"
+                                whileHover={{ scale: 1.02, backgroundColor: "rgba(248, 250, 252, 1)" }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => {
+                                    handleAction("Schedule quarterly check-in");
+                                }}
+                                className="w-full flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all text-left group"
                             >
-                                <div className="p-1.5 bg-slate-100 rounded-md">
-                                    <Calendar className="w-4 h-4 text-slate-600" />
+                                <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-slate-200 transition-colors">
+                                    <Calendar className="w-5 h-5 text-slate-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <span className="text-[12px] font-medium text-slate-800 block">
+                                    <span className="text-[13px] font-semibold text-slate-800 block">
                                         Schedule quarterly check-in
                                     </span>
-                                    <span className="text-[11px] text-slate-500">
+                                    <span className="text-[11px] text-slate-500 leading-normal">
                                         Last meeting was 45 days ago
                                     </span>
                                 </div>
-                                <Send className="w-4 h-4 text-slate-400" />
+                                <Send className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors mt-1" />
                             </motion.button>
                         </div>
                     </div>
                 </div>
 
                 {/* Footer */}
-                <div className="px-5 py-4 border-t border-slate-100 bg-slate-50/50">
-                    <div className="flex items-center gap-2">
-                        <Button variant="outline" className="flex-1 h-9 text-[12px]">
-                            <Mail className="w-3.5 h-3.5 mr-1.5" />
+                <div className="px-5 py-5 border-t border-slate-100 bg-slate-50/50">
+                    <div className="flex items-center gap-3">
+                        <Button
+                            variant="outline"
+                            className="flex-1 h-10 text-[13px] font-semibold border-slate-200 hover:bg-white hover:text-blue-600 hover:border-blue-600 transition-all"
+                            onClick={() => {
+                                handleAction(`Drafting email to ${contact.name}`);
+                                toast.success(`Email composer opened for ${contact.name}`);
+                            }}
+                        >
+                            <Mail className="w-4 h-4 mr-2" />
                             Send Email
                         </Button>
-                        <Button className="flex-1 h-9 text-[12px] bg-slate-900 hover:bg-slate-800">
-                            <Calendar className="w-3.5 h-3.5 mr-1.5" />
+                        <Button
+                            className="flex-1 h-10 text-[13px] font-semibold bg-slate-900 hover:bg-indigo-600 transition-all shadow-md active:scale-95"
+                            onClick={() => {
+                                handleAction(`Scheduling meeting with ${contact.name}`);
+                                toast.info(`Calendar integration opened for ${contact.name}`);
+                            }}
+                        >
+                            <Calendar className="w-4 h-4 mr-2" />
                             Schedule Meeting
                         </Button>
                     </div>

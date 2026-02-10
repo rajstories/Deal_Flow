@@ -152,7 +152,7 @@ IMPORTANT: Return your analysis as VALID JSON ONLY (no markdown, no code blocks)
 export async function detectRedFlags(analysis) {
     try {
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash",
+            model: "gemini-2.5-flash", // ✅ Updated to working model
             tools: [{
                 functionDeclarations: [{
                     name: "verify_company_claim",
@@ -252,7 +252,7 @@ For each red flag, determine if we should verify it using web search.`;
 export async function getCompetitorIntelligence(companyName, sector) {
     try {
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash",
+            model: "gemini-2.5-flash", // ✅ Updated to working model
             tools: [{ googleSearch: {} }] // Enable Google Search grounding
         });
 
@@ -294,7 +294,7 @@ Use current, real-time data from web search. Include citations for funding and n
 export async function generateInvestmentMemo(analysis, competitors, redFlags) {
     try {
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash",
+            model: "gemini-2.5-flash", // ✅ Updated to working model
             generationConfig: {
                 temperature: 0.7,
                 maxOutputTokens: 8192, // Long-form content
@@ -381,7 +381,7 @@ Use professional, clear language appropriate for an investment committee.`
 export function createChatSession(analysisContext) {
     try {
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash",
+            model: "gemini-2.5-flash", // ✅ Same working model as analysis
             generationConfig: {
                 temperature: 0.8,
             }
