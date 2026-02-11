@@ -8,24 +8,27 @@ import Relationships from './pages/Relationships';
 import Portfolio from './pages/Portfolio';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
+import LandingPage from './pages/LandingPage';
 
 import { Toaster } from 'sonner';
 
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/pipeline" element={<Pipeline />} />
-          <Route path="/analysis" element={<Analysis />} />
-          <Route path="/relationships" element={<Relationships />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-        <Toaster />
-      </Layout>
+      <Routes>
+        {/* Landing Page Route - No Layout */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Application Routes - With Dashboard Layout */}
+        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+        <Route path="/pipeline" element={<Layout><Pipeline /></Layout>} />
+        <Route path="/analysis" element={<Layout><Analysis /></Layout>} />
+        <Route path="/relationships" element={<Layout><Relationships /></Layout>} />
+        <Route path="/portfolio" element={<Layout><Portfolio /></Layout>} />
+        <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
+        <Route path="/settings" element={<Layout><Settings /></Layout>} />
+      </Routes>
+      <Toaster />
     </Router>
   );
 }

@@ -5,7 +5,6 @@ import PortfolioChart from '@/components/dashboard/PortfolioChart';
 import LiveActivityFeed from '@/components/dashboard/LiveActivityFeed';
 import LatestAnalysis from '@/components/dashboard/LatestAnalysis';
 import { getDashboardMetrics } from '@/services/api';
-import { toast } from 'sonner';
 
 export default function Dashboard() {
     const [metrics, setMetrics] = useState([]);
@@ -14,8 +13,16 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchMetrics = async () => {
             try {
+                // If API is not available, this throws
                 const data = await getDashboardMetrics();
-                setMetrics(data);
+                // If data is weird, log it
+                console.log('API returned:', data);
+                if (Array.isArray(data)) {
+                    setMetrics(data);
+                } else {
+                    console.warn('API returned non-array data, using fallback');
+                    throw new Error('Non-array data');
+                }
             } catch (error) {
                 console.error("Failed to fetch dashboard metrics:", error);
                 // Use mock data fallback for demo purposes
@@ -34,6 +41,7 @@ export default function Dashboard() {
                         change: '+3 this week',
                         trend: 'up',
                         icon: 'Target',
+                        iconName: 'Target',
                         color: 'emerald'
                     },
                     {
@@ -42,6 +50,7 @@ export default function Dashboard() {
                         change: '+8 today',
                         trend: 'up',
                         icon: 'Brain',
+                        iconName: 'Brain',
                         color: 'purple'
                     },
                     {
@@ -50,6 +59,7 @@ export default function Dashboard() {
                         change: '+2.4%',
                         trend: 'up',
                         icon: 'Zap',
+                        iconName: 'Zap',
                         color: 'amber'
                     }
                 ];
@@ -61,16 +71,6 @@ export default function Dashboard() {
 
         fetchMetrics();
     }, []);
-
-    // Default metrics structure for skeleton or initial render if you want
-    // But since we are replacing hardcoded, we should rely on API
-
-    // Mapping icons string to components if backend sends string names
-    // Or just re-construct the array with data values
-
-    // Simulating mapping if backend returns { portfolioValue: '$95.2M', ... }
-    // For now, let's assume the backend aligns with this structure or we just use the data directly.
-    // However, icons are React components, so we MUST map them here.
 
     const iconMap = {
         'Wallet': Wallet,
@@ -86,14 +86,20 @@ export default function Dashboard() {
         'Zap': 'bg-orange-500'
     };
 
-    // If data is just raw values, we can merge with static config
-    // Let's assume backend returns array: [{ title: 'Portfolio Value', value: '...', change: '...', changeType: '...', iconName: 'Wallet' }]
+    // Robust mapping
+    const processedMetrics = Array.isArray(metrics) ? metrics.map(m => {
+        const iconKey = m.iconName || m.icon;
+        const IconComponent = iconMap[iconKey] || Wallet;
+        const bgClass = colorMap[iconKey] || 'bg-blue-500';
+        return {
+            ...m,
+            icon: IconComponent,
+            iconBg: bgClass
+        };
+    }) : [];
 
-    const processedMetrics = metrics.map(m => ({
-        ...m,
-        icon: iconMap[m.iconName] || Wallet, // Fallback
-        iconBg: colorMap[m.iconName] || 'bg-blue-500'
-    }));
+    // Log processed metrics to help debug
+    console.log('Processed metrics:', processedMetrics);
 
     return (
         <div className="space-y-8">
@@ -115,8 +121,8 @@ export default function Dashboard() {
                         <div key={i} className="h-32 bg-white rounded-xl animate-pulse shadow-sm border border-slate-100"></div>
                     ))
                 ) : (
-                    processedMetrics.map((metric) => (
-                        <MetricCard key={metric.title} {...metric} />
+                    processedMetrics.map((metric, idx) => (
+                        <MetricCard key={metric.title || idx} {...metric} />
                     ))
                 )}
             </div>

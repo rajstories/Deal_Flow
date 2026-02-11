@@ -22,7 +22,11 @@ export default function LiveActivityFeed() {
                 // Ensure api.js exports getAgentActivity. 
                 // The backend /api/activity returns array of { id, type, text, time, badge }
                 const data = await getAgentActivity();
-                setActivities(data);
+                if (Array.isArray(data)) {
+                    setActivities(data);
+                } else {
+                    throw new Error("Non-array activity data");
+                }
             } catch (error) {
                 console.error("Failed to fetch activity feed:", error);
                 // Use mock data fallback
@@ -75,6 +79,8 @@ export default function LiveActivityFeed() {
         const config = ICON_MAP[item.type] || ICON_MAP.FileText;
         const Icon = config.icon;
 
+        if (!Icon) return null; // Safety check
+
         return (
             <div key={item.id} className="flex gap-3 items-start group">
                 <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors", config.bg)}>
@@ -96,6 +102,8 @@ export default function LiveActivityFeed() {
             </div>
         );
     };
+
+    if (!Array.isArray(activities)) return null;
 
     return (
         <SpotlightCard className="h-full flex flex-col p-4">

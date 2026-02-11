@@ -82,6 +82,19 @@ export default {
                 800: '#065f46',
                 900: '#064e3b',
                 950: '#022c22',
+            },
+            gold: {
+                50: '#fffbf2',
+                100: '#fffae5',
+                200: '#fde68a',
+                300: '#fcd34d',
+                400: '#fbbf24',
+                500: '#F59E0B',
+                600: '#d97706',
+                700: '#b45309',
+                800: '#92400e',
+                900: '#78350f',
+                950: '#451a03',
             }
   		},
   		borderRadius: {
@@ -109,8 +122,17 @@ export default {
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
-  		}
+  		},
+        fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+        },
+        boxShadow: {
+            'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+            'glow': '0 0 20px rgba(245, 158, 11, 0.3)',
+        }
   	}
   },
   plugins: [],

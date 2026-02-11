@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
 
 const navItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: FileSearch, label: 'Deal Analysis', path: '/analysis' },
     { icon: Kanban, label: 'Deal Pipeline', path: '/pipeline' },
     { icon: Users2, label: 'Relationships', path: '/relationships' },

@@ -15,7 +15,11 @@ export default function LatestAnalysis() {
         const fetchData = async () => {
             try {
                 const analysisData = await getLatestAnalysis();
-                setData(analysisData);
+                if (analysisData && analysisData.score && analysisData.company && analysisData.metrics) {
+                    setData(analysisData);
+                } else {
+                    throw new Error("Invalid analysis data structure");
+                }
             } catch (error) {
                 console.error("Failed to fetch latest analysis:", error);
                 // Use mock data fallback
